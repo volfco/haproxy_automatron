@@ -1,0 +1,6 @@
+frontend {backend}
+  bind {bindAddr}:{servicePort}{sslCert}{bindOptions}
+  mode {mode}
+
+  acl is_certbot path_beg -i /.well-known/acme-challenge
+  use_backend certbot if is_certbot
