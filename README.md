@@ -43,6 +43,9 @@ python3 marathon_lb.py --command 'haproxy_automatron.py'
 ```
 
 # Environmental Variables
+## CERTBOT_EMAIL
+E-Mail Address for certbot
+
 ## CERTBOT_PATH
 Absolute path to the certbot executable. Defaults to `/usr/bin/certbot`
 

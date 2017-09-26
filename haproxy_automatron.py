@@ -83,7 +83,7 @@ for line in output.split('\n'):
 if domains.__len__() > 0:
     logger.info("Processing {0} domains".format(domains.__len__()))
     for domain in domains:
-        args = ['certbot', 'certonly', '--noninteractive', '--agree-tos', '--standalone', '--preferred-challenges', 'http', '--http-01-port', '6709', '-d', domain, '--email', 'colum.mcgaley@fastmail.com', '']
+        args = ['certbot', 'certonly', '--noninteractive', '--agree-tos', '--standalone', '--preferred-challenges', 'http', '--http-01-port', '6709', '-d', domain, '--email', os.getenv('CERTBOT_EMAIL')]
 
         logger.info("Executing: {0}".format(' '.join(args)))
         proc = subprocess.check_output(' '.join(args), shell=True, stderr=subprocess.STDOUT)
