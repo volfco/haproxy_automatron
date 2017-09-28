@@ -1,0 +1,4 @@
+CERTBOT_EMAIL=certbot@colum.mcgaley.fastmail.com
+CERTBOT_PATH=/usr/bin/certbot
+HAPROXY_CFGPATH=/etc/haproxy/haproxy.cfg
+HAPROXY_SSLDIR=/etc/ssl/haproxy
