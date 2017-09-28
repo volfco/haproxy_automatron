@@ -3,12 +3,43 @@ HAProxy Automatron is a script that, when executed, will request Let's
 Encrypt certificates for all defined domains in haproxy.cfg.
 
 The primary use case is to use with marathon-lb, which is a Mesosphere
-HAProxy plugin, that regenerates the haproxy with topology changes. This
-script is designed to be executed by marathon-lb as a custom reload
-command.
+HAProxy plugin, that regenerates the haproxy config with topology
+changes. This script is designed to be executed by marathon-lb as a
+custom reload (--command) command.
 
 This script has no dependencies on marathon, mesos, or any other system
-besides `certbot`. It can be run independently.
+besides `certbot`.
+
+This script can be run on demand, or as a cron job. It is recommend to
+as a cronjob to make sure that all certificates are updated, and
+on-demand when the topology changes (say, attached to marathon-lb).
+
+## SSL
+The default behavior of marathon-lb is to have all information be spoon
+feed from marathon. This might work for some, but here we are decoupling
+SSL control from marathon. Now, every domain that is configured for
+HAProxy (using the HAPROXY_GROUP label) will automatically get an SSL
+certificate.
+
+This is better than the default configuration, in that if there was no
+SSL certificate for a domain the user will get an invalid certificate
+warning in the browser. I don't have to say why this is bad.
+
+# Execution Workflow
+1. Marathon-LB is invoked or detects a topology change
+2. Marathon-LB completes haproxy.cfg generation and invokes
+haproxy_automatron.py
+3. haproxy_automatron.py does some preflight checks and then parses
+haproxy.cfg and pulls all hostnames. We are assuming DNS is already
+configured
+4. haproxy_automatron.py try to generate certificates for each hostname
+present
+5. haproxy_automatron.py will itterate over all certificates in the
+`/etc/letsencrypt/live/` directory, and generate a full pem containing
+both the chain and private key in `/etc/ssl/haproxy`
+6. haproxy_automatron.py will do a configuration check to make sure that
+haproxy will come up cleanly when reloaded
+7. haproxy_automatron.py will reload haproxy and exit cleanly
 
 # Required Configuration
 
