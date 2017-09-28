@@ -1,0 +1,6 @@
+frontend marathon_http_in
+  bind *:80
+  mode http
+  acl is_certbot path_beg -i /.well-known/acme-challenge
+  use_backend certbot if is_certbot
+
