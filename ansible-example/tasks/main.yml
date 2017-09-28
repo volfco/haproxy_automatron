@@ -80,7 +80,7 @@
 - name: generate template softlinks
   file:
     src: "/opt/haproxy_automatron/marathon-lb-templates/{{ item }}"
-    dest: "/opt/marathon-lb/templates"
+    dest: "/opt/marathon-lb/templates/{{ item }}"
     state: link
     force: yes
   with_items:
