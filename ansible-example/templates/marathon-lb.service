@@ -8,7 +8,7 @@ User=root
 Group=root
 WorkingDirectory=/opt/marathon-lb
 EnvironmentFile=-/opt/haproxy_automatron.env
-ExecStart=./marathon_lb.py --sse --marathon {% for __host in hostvars[inventory_hostname]['groups']['mesos-masters'] %}http://{{ __host }}:8080{% if not loop.last %},{% endif %}{% endfor %} --group external --command /opt/haproxy_automatron/haproxy_automatron.py
+ExecStart=/usr/bin/python3 /opt/marathon-lb/marathon_lb.py --sse --marathon {% for __host in hostvars[inventory_hostname]['groups']['mesos-masters'] %}http://{{ __host }}:8080{% if not loop.last %},{% endif %}{% endfor %} --group external --command /opt/haproxy_automatron/haproxy_automatron.py
  
 [Install]
 WantedBy=multi-user.target
