@@ -34,12 +34,17 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-domains = {}
+domains = []
 
 # Preflight checks
 if not os.path.exists(os.getenv('CERTBOT_PATH', '/usr/bin/certbot')):
     logger.critical("Certbot is required for this script to work.")
     exit(1)
+
+if not os.path.exists(os.getenv('CERTBOT_EMAIL')):
+    logger.critical("CERTBOT_EMAIL is required for this script to work")
+    exit(1)
+
 
 # Validate that we have the required configuration in the haproxy config
 with open(os.getenv('HAPROXY_CFGPATH', '/etc/haproxy/haproxy.cfg'), 'r') as fh:
@@ -69,7 +74,7 @@ with open(os.getenv('HAPROXY_CFGPATH', '/etc/haproxy/haproxy.cfg'), 'r') as fh:
         if match is not None:
             data = match.groups()
             logger.info("Found {0}->{1}".format(data[0], data[1]))
-            domains[data[1]] = data[0]  # If there are multiple backends for a single domain (say, HTTP & HTTPS), that sucks for them
+            domains.append(data[1].strip())
 
 
 # Renew certs so we can do the processing at once
