@@ -90,6 +90,9 @@ if domains.__len__() > 0:
         output = proc.decode('utf-8')
         for line in output.split('\n'):
             logger.debug(line)
+else:
+    logging.warning("No Domains found. Nothing to do")
+    exit(0)
 
 # Cleanup PEM files from previous runs.
 for pem in os.listdir(os.getenv('HAPROXY_SSLDIR', '/etc/ssl/haproxy')):
