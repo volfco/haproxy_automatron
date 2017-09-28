@@ -60,5 +60,5 @@ listen stats
 backend certbot
     log global
     mode http
-    server certbot 127.0.0.1:6907
+    server certbot 127.0.0.1:8000
 
