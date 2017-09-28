@@ -41,7 +41,7 @@ if not os.path.exists(os.getenv('CERTBOT_PATH', '/usr/bin/certbot')):
     logger.critical("Certbot is required for this script to work.")
     exit(1)
 
-if not os.path.exists(os.getenv('CERTBOT_EMAIL')):
+if not os.getenv('CERTBOT_EMAIL'):
     logger.critical("CERTBOT_EMAIL is required for this script to work")
     exit(1)
 
